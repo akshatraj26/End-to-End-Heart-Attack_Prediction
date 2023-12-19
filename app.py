@@ -91,14 +91,14 @@ def prediction():
         try:
             db.session.commit()
             flash('Your data has been saved', 'success')
-            return redirect('/')
+            return render_template('index.html', predict=label)
         except Exception as e:
             flash('An Error occured while saving your data', 'danger')
             print(str(e))
             return redirect(url_for('index'))
             
         
-    return render_template('index.html', predict = label)
+    return render_template('index.html')
         
         
 
