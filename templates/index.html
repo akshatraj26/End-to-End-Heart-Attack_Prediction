@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css')}}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+
+    </head>
+    <body>
+        <section class='text-white'>
+            <div class='header'>
+                <h1>Heart Attack</h1>
+                <!-- Display DataFrame as an HTML table -->
+                {{ table | safe }}
+            </div>
+        <div class='container-sm'>
+
+            {% for message in get_flashed_messages() %}
+                <div class='alert alert-success alert-dismissible fade show' role ='alert'>
+                    <p>{{ message }}</p>
+                </div>
+
+                {% endfor %}
+
+            <form action='{{ url_for('prediction')}}' method = 'POST'>
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-2 col-form-label fw-bold justify-content-left'>Age</label>
+                    <input type='text' name = 'age' placeholder = 'Age in Years' required />
+                </div>
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='gender' class = 'col-sm-2 col-form-label fw-bold justify-content-left'>Gender</label>
+                    <div class='col-sm-2'>
+                        <select name='gender' id='' class='dropdown center-block' required>
+                            <option value= 1>Male</option>
+                            <option value= 0>Female</option>
+                        </select>
+                    </div>
+                    
+                </div>
+
+               
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-2 col-form-label fw-bold'>Chest Pain</label>
+                    <div class='col-sm-2'>
+                        <select name='cp' id='' required class='dropdown center-block'>
+                            <option value= 0>Typical Anigna</option>
+                            <option value= 1>Atypical Anigna</option>
+                            <option value= 2>Non-Angina</option>
+                            <option value= 3>Asymptomatic</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-2 col-form-label fw-bold'>Normal Blood Pressure</label>
+                    <input type='text' name = 'trbps' placeholder = 'Normal Blood Pressure (in mm Hg)' required />
+                </div>
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-2 col-form-label fw-bold'>Cholestrol</label>
+                    <input type='text' name = 'chol' placeholder = 'Cholestrol in mg/dl fetched via BMI sensor' required />
+                </div>
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-2 col-form-label fw-bold'>Fasting Blood Sugar</label>
+                    <div class='col-sm-2'>
+                        <select name='fbs' id='' required class='dropdown center-block'>
+                            <option value= 1>Fasting Blood Sugar greater than 120 mg/dl</option>
+                            <option value= 0>Fasting Blood Sugar less than 120 mg/dl</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-3 col-form-label fw-bold'>Resting Electrocardiographic Results </label>
+                    <div class='col-sm-2'>
+                        <select name='rest_ecg' id='' required class='dropdown center-block'>
+                            <option value= 0>Normal</option>
+                            <option value= 1>ST-t wave abnormality</option>
+                            <option value= 2>LVH(Left Ventricular Hypertrophy) by Estes criteria</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-2 col-form-label fw-bold'>Maximum Heart Rate</label>
+                    <input type='text' name = 'thalach' placeholder = 'Maximum Heart Rate' required />
+                </div>
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-2 col-form-label fw-bold'>Exercise Induced Anigma </label>
+                    <div class='col-sm-2'>
+                        <select name='exng' id='' required class='dropdown center-block'>
+                            <option value= '1'>Yes</option>
+                            <option value= '0'>No</option>
+                        </select>
+                    </div>
+                </div>
+            
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-3 col-form-label fw-bold'>ST depression induced by exercise relative to rest : </label>
+                    <input type='text' name = 'oldpeak' placeholder = 'ST depression induced by exercise relative to rest' required />
+                </div>
+                
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-2 col-form-label fw-bold'>The slope of the peak exercise ST segment  </label>
+                    <div class='col-sm-2'>
+                        <select name='slp' id='' required class='dropdown center-block'>
+                            <option value= '0'>Upsloping</option>
+                            <option value= '1'>Flat</option>
+                            <option value= '2'>Downsloping</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-2 col-form-label fw-bold'>Number of major vessels (0-3)</label>
+                    <div class='col-sm-2'>
+                        <select name='ca' id='' required class='dropdown center-block'>
+                            <option  value= 0>0</option>
+                            <option  value= 1>1</option>
+                            <option  value= 2>2</option>
+                            <option  value= 3>3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class='row form-group form-check d-flex justify-content-center mb-2'>
+                    <label for='' class = 'col-sm-3 col-form-label fw-bold'>Thall</label>
+                    <div class='col-sm-2'>
+                        <select name='thall' id='' required class='dropdown center-block'>
+                            <option  value= 0>Normal</option>
+                            <option  value= 1>Fixed detect</option>
+                            <option  value= 2>Reversable</option>
+                            <option  value= 3>3</option>
+                        </select>
+                    </div>
+
+                    
+                </div>
+                <div class='form-check d-flex justify-content-center mb-2'>
+                    <button type ='submit' class='btn btn-success btn-block mb-4 text-white submit'>Submit</button>
+                </div>
+               
+                
+                <div class='mb-4 my-3 text-center'>
+                    <h4 class='text-white'>{{ predict }}</h4>
+                    
+            </form>
+        </div>
+    </section>
+        <script src="" async defer></script>
+        <script src="{{ url_for('static', filename='script.js') }}" async defer></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
